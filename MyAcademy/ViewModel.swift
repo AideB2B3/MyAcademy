@@ -35,15 +35,42 @@ class MissionViewModel: ObservableObject {
     }
 
     func loadMissions() {
-        // Carica le missioni (mock o da un database)
+        let calendar = Calendar.current
         let now = Date()
-        missions = [
-            Mission(id: UUID(), title: "Challenge 1", description: "Descrizione 1", startDate: now, endDate: Calendar.current.date(byAdding: .day, value: 4, to: now)!, isCompleted: false, completedPhoto: nil),
-            Mission(id: UUID(), title: "Challenge 2", description: "Descrizione 2", startDate: now , endDate: Calendar.current.date(byAdding: .day, value: 4, to: now)!, isCompleted: false, completedPhoto: nil),
-            Mission(id: UUID(), title: "Challenge 3", description: "Descrizione 3", startDate: now , endDate: Calendar.current.date(byAdding: .day, value: 4, to: now)!, isCompleted: false, completedPhoto: nil),
-            Mission(id: UUID(), title: "Challenge 4", description: "Descrizione 4", startDate: now , endDate: Calendar.current.date(byAdding: .day, value: 4, to: now)!, isCompleted: false, completedPhoto: nil),
-            Mission(id: UUID(), title: "Challenge 5", description: "Descrizione 5", startDate: now , endDate: Calendar.current.date(byAdding: .day, value: 4, to: now)!, isCompleted: false, completedPhoto: nil),
-        ]
+        
+        var allMissions: [Mission] = []
+
+        // Genera missioni per ogni settimana dell'anno
+        let startOfYear = calendar.date(from: Calendar.current.dateComponents([.year], from: now))!
+        let daysInYear = calendar.range(of: .day, in: .year, for: startOfYear)!.count
+
+        for dayOffset in 0..<daysInYear {
+            // Calcola la data del giorno corrente dell'anno
+            let dayOfYear = calendar.date(byAdding: .day, value: dayOffset, to: startOfYear)!
+            
+            // Se il giorno è lunedì, crea 5 missioni per quella settimana (dal lunedì al venerdì)
+            if calendar.component(.weekday, from: dayOfYear) == 2 {  // 2 significa lunedì
+                let weekStart = dayOfYear
+                let weekEnd = calendar.date(byAdding: .day, value: 4, to: weekStart)!
+                
+                // Crea le missioni per la settimana
+                for i in 0..<5 {  // 5 giorni dal lunedì al venerdì
+                    let missionDate = calendar.date(byAdding: .day, value: i, to: weekStart)!
+                    let mission = Mission(
+                        id: UUID(),
+                        title: "Missione \(dayOffset + 1) - Giorno \(i + 1)",
+                        description: "Descrizione della missione per il giorno \(i + 1) della settimana",
+                        startDate: missionDate,
+                        endDate: missionDate,  // Una missione per giorno, inizia e finisce lo stesso giorno
+                        isCompleted: false,
+                        completedPhoto: nil
+                    )
+                    allMissions.append(mission)
+                }
+            }
+        }
+
+        missions = allMissions
     }
 
     func selectCurrentChallenge() {

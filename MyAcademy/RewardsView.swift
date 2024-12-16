@@ -36,17 +36,17 @@ struct RewardsView: View {
                 
                 VStack {
                     LazyVGrid(columns: [
-                        GridItem(.flexible()),
-                        GridItem(.flexible()),
-                        GridItem(.flexible())
-                    ], spacing: 5) {
+                        GridItem(.fixed(120)),
+                        GridItem(.fixed(120)),
+                        GridItem(.fixed(120))
+                    ], spacing: 10) {
                         ForEach(months, id: \.self) { month in
                             NavigationLink(destination: navigateToView(for: month)) {
                                 VStack {
                                     Text(month)
                                         .font(.system(size: 13, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
-                                    
+
                                     Image(systemName: "star")
                                         .resizable()
                                         .scaledToFit()
@@ -83,7 +83,7 @@ struct RewardsView: View {
         case "October": OctoberView()
         case "November": NovemberView()
         case "December": DecemberView()
-        case "Jannary": JanuaryView()
+        case "January": JanuaryView()
         case "February": FebruaryView()
         case "March": MarchView()
         case "April": AprilView()
