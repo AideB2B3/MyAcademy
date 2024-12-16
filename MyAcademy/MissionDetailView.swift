@@ -69,8 +69,11 @@ struct MissionDetailView: View {
 #Preview {
     MissionDetailView(
         mission: Mission(
+            id: UUID(),
             title: "Missione 1",
             description: "Trova un albero e scatta una foto.",
+            startDate: Date(),
+            endDate: Date().addingTimeInterval(60),
             isCompleted: false,
             completedPhoto: nil
         ),

@@ -16,42 +16,39 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 15)
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(height: 95)
-                        .shadow(radius: 5)
-                        .padding(.top,5)
-                    VStack {
-                        Text("Time for the challenges")
-                            .font(.headline)
-                        HStack {
-                            VStack {
-                                Text("Start Challenge:")
-                                    .font(.headline)
-                                    .foregroundColor(.green)
-                                
-                                    .padding(.vertical,0.5)
-                                
-                                Text("16/12")
-                                    .font(.subheadline)
-                                    .foregroundColor(.green)
+                if let currentChallenge = viewModel.currentChallenge {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(height: 100)
+                            .shadow(radius: 5)
+                            .padding(.top, 25)
+                        VStack {
+                            Text(currentChallenge.title)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .padding(.vertical,2)
+                                .padding(.top,5)
+                            HStack {
+                                VStack {
+                                    Text("Start:")
+                                        .font(.headline)
+                                        .foregroundColor(.green)
+                                    Text(currentChallenge.startDate, style: .date)
+                                        .font(.subheadline)
+                                        .foregroundColor(.green)
+                                }
+                                .padding(.horizontal)
+                                VStack {
+                                    Text("End:")
+                                        .font(.headline)
+                                        .foregroundColor(.red)
+                                    Text(currentChallenge.endDate, style: .date)
+                                        .font(.subheadline)
+                                        .foregroundColor(.red)
+                                }
+                                .padding(.horizontal)
                             }
-                            .padding(.horizontal)
-                            
-                            
-                            VStack {
-                                Text("Finish challenges:")
-                                    .font(.headline)
-                                    .foregroundColor(.red)
-                                
-                                    .padding(.vertical,0.5)
-                                
-                                Text("20/12")
-                                    .font(.subheadline)
-                                    .foregroundColor(.red)
-                            }
-                            .padding(.horizontal)
                         }
                     }
                 }
