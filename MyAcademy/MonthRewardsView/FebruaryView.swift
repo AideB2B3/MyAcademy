@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct FabruaryView: View {
+struct FebruaryView: View {
         
     var body: some View {
-        Text("FabruaryView")
+        Text("FebruaryView")
     }
 }
 
 #Preview {
-    FabruaryView()
+    FebruaryView()
 }
