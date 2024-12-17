@@ -4,7 +4,6 @@
 //
 //  Created by Davide Bellobuono on 11/12/24.
 //
-
 import SwiftUI
 import Combine
 
@@ -35,41 +34,14 @@ class MissionViewModel: ObservableObject {
     }
 
     func loadMissions() {
-        let calendar = Calendar.current
-        let now = Date()
-        
+        // Carica le missioni di dicembre da MissionData.swift
         var allMissions: [Mission] = []
-
-        // Genera missioni per ogni settimana dell'anno
-        let startOfYear = calendar.date(from: Calendar.current.dateComponents([.year], from: now))!
-        let daysInYear = calendar.range(of: .day, in: .year, for: startOfYear)!.count
-
-        for dayOffset in 0..<daysInYear {
-            // Calcola la data del giorno corrente dell'anno
-            let dayOfYear = calendar.date(byAdding: .day, value: dayOffset, to: startOfYear)!
-            
-            // Se il giorno è lunedì, crea 5 missioni per quella settimana (dal lunedì al venerdì)
-            if calendar.component(.weekday, from: dayOfYear) == 2 {  // 2 significa lunedì
-                let weekStart = dayOfYear
-                let weekEnd = calendar.date(byAdding: .day, value: 4, to: weekStart)!
-                
-                // Crea le missioni per la settimana
-                for i in 0..<5 {  // 5 giorni dal lunedì al venerdì
-                    let missionDate = calendar.date(byAdding: .day, value: i, to: weekStart)!
-                    let mission = Mission(
-                        id: UUID(),
-                        title: "Missione \(dayOffset + 1) - Giorno \(i + 1)",
-                        description: "Descrizione della missione per il giorno \(i + 1) della settimana",
-                        startDate: missionDate,
-                        endDate: missionDate,  // Una missione per giorno, inizia e finisce lo stesso giorno
-                        isCompleted: false,
-                        completedPhoto: nil
-                    )
-                    allMissions.append(mission)
-                }
-            }
-        }
-
+        
+        allMissions.append(contentsOf: decemberWeek1Missions)
+        allMissions.append(contentsOf: decemberWeek2Missions)
+        allMissions.append(contentsOf: decemberWeek3Missions)
+        allMissions.append(contentsOf: decemberWeek4Missions)
+        
         missions = allMissions
     }
 

@@ -4,6 +4,7 @@
 //
 //  Created by Davide Bellobuono on 10/12/24.
 //
+
 import SwiftUI
 
 struct ContentView: View {
@@ -20,15 +21,10 @@ struct ContentView: View {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
                             .fill(Color.gray.opacity(0.2))
-                            .frame(height: 100)
+                            .frame(height: 75)
                             .shadow(radius: 5)
-                            .padding(.top, 25)
+                            .padding(.top, 15)
                         VStack {
-                            Text(currentChallenge.title)
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .padding(.vertical,2)
-                                .padding(.top,5)
                             HStack {
                                 VStack {
                                     Text("Start:")
@@ -49,14 +45,18 @@ struct ContentView: View {
                                 }
                                 .padding(.horizontal)
                             }
+                            .padding(.top)
                         }
                     }
+                } else {
+                    Text("No challenges")
+                        .font(.headline)
+                        .foregroundColor(.gray)
                 }
                 
-                // Lista delle missioni
+                // Lista delle missioni con distanze ridotte
                 List(viewModel.missions.prefix(5)) { mission in
-                    VStack{
-                        // Titolo e descrizione della missione
+                    VStack(spacing: 5) { // Spazio ridotto tra gli elementi
                         HStack {
                             Image(systemName: mission.isCompleted ? "checkmark.circle.fill" : "circle")
                                 .foregroundColor(mission.isCompleted ? .green : .gray)
@@ -70,7 +70,7 @@ struct ContentView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.horizontal, 20)
+                            .padding(.horizontal, 15) // Distanza orizzontale ridotta
                             
                             // Immagine associata alla missione
                             if let photo = mission.completedPhoto {
@@ -80,7 +80,6 @@ struct ContentView: View {
                                     .frame(height: 50)
                                     .cornerRadius(10)
                             } else {
-                                // Mostra immagine di default
                                 Image(systemName: "photo")
                                     .resizable()
                                     .scaledToFit()
@@ -89,14 +88,11 @@ struct ContentView: View {
                                     .cornerRadius(10)
                             }
                         }
-                    }
-                    .padding(.vertical, 5)
-                    .onTapGesture {
-                        selectedMission = mission
-                        showingMissionModal = true
+                        .padding(.vertical, 5) // Spazio verticale ridotto
                     }
                 }
                 .listStyle(.insetGrouped)
+                .frame(maxHeight: .infinity) // Rimuove il comportamento di scroll
                 .sheet(isPresented: $showingMissionModal) {
                     if let mission = selectedMission {
                         MissionDetailView(
@@ -126,7 +122,7 @@ struct ContentView: View {
                             .foregroundColor(.yellow)
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, 20) // Ridotto padding inferiore
             }
             .navigationTitle("MyAcademy")
             .navigationBarTitleDisplayMode(.inline)
@@ -141,13 +137,11 @@ struct ContentView: View {
                     }
                 }
             }
+            .padding(.horizontal, 10) // Ridotto padding laterale
         }
-    } //end body
-} // end struct
-
-
+    }
+}
 
 #Preview {
     ContentView()
 }
-
