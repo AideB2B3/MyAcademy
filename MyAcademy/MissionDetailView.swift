@@ -54,6 +54,8 @@ struct MissionDetailView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .padding()
+                .accessibilityLabel("Completa missione")
+                .accessibilityHint("Tocca per completare la missione e aggiungere una foto")
             }
             
             Spacer()

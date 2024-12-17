@@ -30,18 +30,22 @@ struct ContentView: View {
                                     Text("Start:")
                                         .font(.headline)
                                         .foregroundColor(.green)
+                                        .accessibilityLabel("Inizio della sfida")
                                     Text(currentChallenge.startDate, style: .date)
                                         .font(.subheadline)
                                         .foregroundColor(.green)
+                                        .accessibilityLabel("Data di inizio: \(currentChallenge.startDate, style: .date)")
                                 }
                                 .padding(.horizontal)
                                 VStack {
                                     Text("End:")
                                         .font(.headline)
                                         .foregroundColor(.red)
+                                        .accessibilityLabel("Fine della sfida")
                                     Text(currentChallenge.endDate, style: .date)
                                         .font(.subheadline)
                                         .foregroundColor(.red)
+                                        .accessibilityLabel("Data di fine: \(currentChallenge.endDate, style: .date)")
                                 }
                                 .padding(.horizontal)
                             }
@@ -52,6 +56,7 @@ struct ContentView: View {
                     Text("No challenges")
                         .font(.headline)
                         .foregroundColor(.gray)
+                        .accessibilityLabel("Nessuna sfida attualmente")
                 }
                 
                 // Lista delle missioni
@@ -60,15 +65,21 @@ struct ContentView: View {
                         HStack {
                             Image(systemName: mission.isCompleted ? "checkmark.circle.fill" : "circle")
                                 .foregroundColor(mission.isCompleted ? .green : .gray)
+                                .accessibilityLabel(mission.isCompleted ? "Missione completata" : "Missione non completata")
                             
                             VStack(alignment: .leading) {
                                 Text(mission.title)
                                     .font(.headline)
                                     .strikethrough(mission.isCompleted, color: .gray)
-                                
+                                    .accessibilityLabel(mission.title)
+                                    .accessibilityAddTraits(mission.isCompleted ? .isHeader : [])
+
+
                                 Text(mission.description)
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
+                                    .accessibilityLabel(mission.description)
+
                             }
                             .padding(.horizontal, 15)
                             
@@ -79,6 +90,7 @@ struct ContentView: View {
                                     .scaledToFit()
                                     .frame(height: 50)
                                     .cornerRadius(10)
+                                    .accessibilityLabel("Foto completata della missione")
                             } else {
                                 Image(systemName: "photo")
                                     .resizable()
@@ -86,7 +98,9 @@ struct ContentView: View {
                                     .frame(height: 50)
                                     .foregroundColor(.gray)
                                     .cornerRadius(10)
+                                    .accessibilityLabel("Nessuna foto")
                             }
+
                         }
                         .padding(.vertical, 5)
                         .onTapGesture {
@@ -118,12 +132,14 @@ struct ContentView: View {
                             .scaledToFit()
                             .frame(width: 75, height: 75)
                             .foregroundColor(.yellow)
+                            .accessibilityLabel("Missione completate")
                     } else {
                         Image(systemName: "star")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 75, height: 75)
                             .foregroundColor(.yellow)
+                            .accessibilityLabel("Missione non completate")
                     }
                 }
                 .padding(.bottom, 20)
