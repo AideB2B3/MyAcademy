@@ -10,7 +10,9 @@ import SwiftUI
 struct FebruaryView: View {
         
     var body: some View {
-        Text("FebruaryView")
+        Text("Comming soon...")
+            .font(.largeTitle)
+            .padding()
     }
 }
 

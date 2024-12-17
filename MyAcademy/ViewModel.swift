@@ -34,7 +34,7 @@ class MissionViewModel: ObservableObject {
     }
 
     func loadMissions() {
-        // Carica le missioni di dicembre da MissionData.swift
+        
         var allMissions: [Mission] = []
         
         allMissions.append(contentsOf: decemberWeek1Missions)
@@ -68,4 +68,9 @@ class MissionViewModel: ObservableObject {
     var allMissionsCompleted: Bool {
         missions.allSatisfy { $0.isCompleted }
     }
+    
+    func isWeekCompleted(missions: [Mission]) -> Bool {
+        missions.allSatisfy { $0.isCompleted }
+    }
+
 }

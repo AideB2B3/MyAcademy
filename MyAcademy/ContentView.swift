@@ -10,13 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject private var viewModel = MissionViewModel()
-    
     @State private var selectedMission: Mission?
     @State private var showingMissionModal = false
     
     var body: some View {
         NavigationStack {
             VStack {
+                // Settaggio delle date 
                 if let currentChallenge = viewModel.currentChallenge {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
@@ -54,9 +54,9 @@ struct ContentView: View {
                         .foregroundColor(.gray)
                 }
                 
-                // Lista delle missioni con distanze ridotte
+                // Lista delle missioni
                 List(viewModel.missions.prefix(5)) { mission in
-                    VStack(spacing: 5) { // Spazio ridotto tra gli elementi
+                    VStack(spacing: 5) {
                         HStack {
                             Image(systemName: mission.isCompleted ? "checkmark.circle.fill" : "circle")
                                 .foregroundColor(mission.isCompleted ? .green : .gray)
@@ -70,7 +70,7 @@ struct ContentView: View {
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
-                            .padding(.horizontal, 15) // Distanza orizzontale ridotta
+                            .padding(.horizontal, 15)
                             
                             // Immagine associata alla missione
                             if let photo = mission.completedPhoto {
@@ -88,11 +88,15 @@ struct ContentView: View {
                                     .cornerRadius(10)
                             }
                         }
-                        .padding(.vertical, 5) // Spazio verticale ridotto
+                        .padding(.vertical, 5)
+                        .onTapGesture {
+                            selectedMission = mission
+                            showingMissionModal = true
+                        }
                     }
                 }
                 .listStyle(.insetGrouped)
-                .frame(maxHeight: .infinity) // Rimuove il comportamento di scroll
+                .frame(maxHeight: .infinity)
                 .sheet(isPresented: $showingMissionModal) {
                     if let mission = selectedMission {
                         MissionDetailView(
@@ -122,7 +126,7 @@ struct ContentView: View {
                             .foregroundColor(.yellow)
                     }
                 }
-                .padding(.bottom, 20) // Ridotto padding inferiore
+                .padding(.bottom, 20)
             }
             .navigationTitle("MyAcademy")
             .navigationBarTitleDisplayMode(.inline)
@@ -137,7 +141,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .padding(.horizontal, 10) // Ridotto padding laterale
+            .padding(.horizontal, 10)
         }
     }
 }
