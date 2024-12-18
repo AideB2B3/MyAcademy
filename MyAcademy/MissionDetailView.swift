@@ -11,7 +11,7 @@ import UIKit
 struct MissionDetailView: View {
     let mission: Mission
     var onComplete: (UIImage) -> Void
-    
+    @Binding var isPresented: Bool // Binding per controllare la modale
     @State private var showingImagePicker = false
     @State private var selectedImage: UIImage?
     
@@ -56,6 +56,7 @@ struct MissionDetailView: View {
                 Button("Completa Missione") {
                     if let photo = selectedImage {
                         onComplete(photo)
+                        isPresented = false // Chiudi la modale
                     }
                 }
                 .buttonStyle(.borderedProminent)
@@ -75,7 +76,9 @@ struct MissionDetailView: View {
 }
 
 #Preview {
-    MissionDetailView(
+    @Previewable @State var isPresented = true
+
+    return MissionDetailView(
         mission: Mission(
             id: UUID(),
             title: "Missione 1",
@@ -87,6 +90,9 @@ struct MissionDetailView: View {
         ),
         onComplete: { _ in
             print("Missione completata!") // Azione di esempio per la preview
-        }
+        },
+        isPresented: $isPresented
     )
 }
+
+

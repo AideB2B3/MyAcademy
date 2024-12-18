@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Settaggio delle date
+                // Contenuto principale
                 if let currentChallenge = viewModel.currentChallenge {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
@@ -23,7 +23,7 @@ struct ContentView: View {
                             .frame(height: 75)
                             .shadow(radius: 5)
                             .padding(.top, 15)
-                            .accessibilityHidden(true) // Nasconde elemento decorativo
+                            .accessibilityHidden(true)
                         
                         VStack {
                             HStack {
@@ -54,7 +54,7 @@ struct ContentView: View {
                                 .padding(.horizontal)
                             }
                         }
-                        .accessibilityElement(children: .combine) // Combina i testi
+                        .accessibilityElement(children: .combine)
                     }
                 } else {
                     Text("No challenges")
@@ -76,8 +76,8 @@ struct ContentView: View {
                                     .font(.headline)
                                     .strikethrough(mission.isCompleted, color: .gray)
                                     .accessibilityLabel(mission.isCompleted
-                                        ? "Missione completata: \(mission.title)"
-                                        : "Missione non completata: \(mission.title)")
+                                                        ? "Missione completata: \(mission.title)"
+                                                        : "Missione non completata: \(mission.title)")
                                     .accessibilityAddTraits(mission.isCompleted ? .isHeader : [])
                                 
                                 Text(mission.description)
@@ -120,7 +120,12 @@ struct ContentView: View {
                         mission: mission,
                         onComplete: { photo in
                             viewModel.completeMission(id: mission.id, with: photo)
-                        }
+                        },
+                        isPresented: Binding(get: { selectedMission != nil }, set: { isPresented in
+                            if !isPresented {
+                                selectedMission = nil
+                            }
+                        })
                     )
                     .accessibilityElement(children: .contain)
                     .accessibilityLabel("Dettagli della missione: \(mission.title)")
@@ -147,8 +152,6 @@ struct ContentView: View {
             }
             .navigationTitle("MyAcademy")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.black, for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: RewardsView()) {
@@ -162,8 +165,8 @@ struct ContentView: View {
             }
             .padding(.horizontal, 10)
         }
-    }
-}
+    } // end body
+} // end struct
 
 #Preview {
     ContentView()
