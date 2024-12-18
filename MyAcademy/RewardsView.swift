@@ -18,12 +18,14 @@ struct RewardsView: View {
                     Text("Final Rewards")
                         .font(.system(size: 13, weight: .bold, design: .rounded))
                         .foregroundColor(.white)
+                        .accessibilityLabel("Ricompensa finale")
                     
                     Image(systemName: "star")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 40, height: 40)
                         .foregroundColor(.yellow)
+                        .accessibilityLabel("Stella gialla, simbolo di ricompensa")
                 }
                 .padding()
                 .background(
@@ -46,12 +48,14 @@ struct RewardsView: View {
                                     Text(month)
                                         .font(.system(size: 13, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
-
+                                        .accessibilityLabel("Mese: \(month)")
+                                    
                                     Image(systemName: "star")
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 40, height: 40)
                                         .foregroundColor(.yellow)
+                                        .accessibilityLabel("Stella, ricompensa per il mese di \(month)")
                                 }
                                 .padding()
                                 .background(
@@ -60,6 +64,8 @@ struct RewardsView: View {
                                         .shadow(radius: 5)
                                 )
                                 .frame(width: 120, height: 120)
+                                .accessibilityElement(children: .combine)
+                                .accessibilityHint("Tocca per aprire le ricompense del mese di \(month)")
                             }
                             .buttonStyle(.plain)
                         }
@@ -70,7 +76,6 @@ struct RewardsView: View {
                     navigateToView(for: month)
                 }
             }
-            
         }
     }
     

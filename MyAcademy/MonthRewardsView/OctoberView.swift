@@ -28,9 +28,11 @@ struct OctoberView: View {
                         .resizable()
                         .frame(width: 50, height: 50)
                         .foregroundColor(viewModel.isWeekCompleted(missions: octoberWeeks[index]) ? .yellow : .gray)
+                        .accessibilityLabel(viewModel.isWeekCompleted(missions: octoberWeeks[index]) ? "Medaglia completata per la settimana \(index + 1)" : "Medaglia non completata per la settimana \(index + 1)")
                 }
             }
             .padding(.top, 20)
+            .accessibilityElement(children: .combine)
             
             Divider()
             
@@ -42,20 +44,26 @@ struct OctoberView: View {
                             Text("Settimana \(index + 1)")
                                 .font(.headline)
                                 .padding(.vertical, 5)
+                                .accessibilityLabel("Missioni della settimana \(index + 1)")
                             
                             // Lista missioni per settimana
                             ForEach(weekMissions) { mission in
                                 HStack {
                                     Image(systemName: mission.isCompleted ? "checkmark.circle.fill" : "circle")
                                         .foregroundColor(mission.isCompleted ? .green : .gray)
+                                        .accessibilityLabel(mission.isCompleted ? "Missione completata" : "Missione non completata")
                                     
                                     VStack(alignment: .leading) {
                                         Text(mission.title)
                                             .font(.subheadline)
                                             .strikethrough(mission.isCompleted, color: .gray)
+                                            .accessibilityLabel(mission.title)
+                                            .accessibilityHint(mission.isCompleted ? "Completata" : "Non completata")
+                                        
                                         Text(mission.description)
                                             .font(.caption)
                                             .foregroundColor(.secondary)
+                                            .accessibilityLabel(mission.description)
                                     }
                                     Spacer()
                                     
@@ -66,6 +74,7 @@ struct OctoberView: View {
                                             .scaledToFit()
                                             .frame(width: 40, height: 40)
                                             .cornerRadius(8)
+                                            .accessibilityLabel("Foto completata per la missione")
                                     } else {
                                         Image(systemName: "photo")
                                             .resizable()
@@ -73,8 +82,10 @@ struct OctoberView: View {
                                             .frame(width: 40, height: 40)
                                             .foregroundColor(.gray)
                                             .cornerRadius(8)
+                                            .accessibilityLabel("Nessuna foto completata per la missione")
                                     }
                                 }
+                                .accessibilityElement(children: .combine)
                                 Divider()
                             }
                         }

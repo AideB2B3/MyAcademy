@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                // Settaggio delle date 
+                // Settaggio delle date
                 if let currentChallenge = viewModel.currentChallenge {
                     ZStack {
                         RoundedRectangle(cornerRadius: 15)
@@ -24,6 +24,8 @@ struct ContentView: View {
                             .frame(height: 75)
                             .shadow(radius: 5)
                             .padding(.top, 15)
+                            .accessibilityHidden(true) // Nasconde elemento decorativo
+                        
                         VStack {
                             HStack {
                                 VStack {
@@ -31,17 +33,20 @@ struct ContentView: View {
                                         .font(.headline)
                                         .foregroundColor(.green)
                                         .accessibilityLabel("Inizio della sfida")
+                                    
                                     Text(currentChallenge.startDate, style: .date)
                                         .font(.subheadline)
                                         .foregroundColor(.green)
                                         .accessibilityLabel("Data di inizio: \(currentChallenge.startDate, style: .date)")
                                 }
                                 .padding(.horizontal)
+                                
                                 VStack {
                                     Text("End:")
                                         .font(.headline)
                                         .foregroundColor(.red)
                                         .accessibilityLabel("Fine della sfida")
+                                    
                                     Text(currentChallenge.endDate, style: .date)
                                         .font(.subheadline)
                                         .foregroundColor(.red)
@@ -49,8 +54,8 @@ struct ContentView: View {
                                 }
                                 .padding(.horizontal)
                             }
-                            .padding(.top)
                         }
+                        .accessibilityElement(children: .combine) // Combina i testi
                     }
                 } else {
                     Text("No challenges")
@@ -71,19 +76,18 @@ struct ContentView: View {
                                 Text(mission.title)
                                     .font(.headline)
                                     .strikethrough(mission.isCompleted, color: .gray)
-                                    .accessibilityLabel(mission.title)
+                                    .accessibilityLabel(mission.isCompleted
+                                        ? "Missione completata: \(mission.title)"
+                                        : "Missione non completata: \(mission.title)")
                                     .accessibilityAddTraits(mission.isCompleted ? .isHeader : [])
-
-
+                                
                                 Text(mission.description)
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
-                                    .accessibilityLabel(mission.description)
-
+                                    .accessibilityLabel("Descrizione: \(mission.description)")
                             }
                             .padding(.horizontal, 15)
                             
-                            // Immagine associata alla missione
                             if let photo = mission.completedPhoto {
                                 Image(uiImage: photo)
                                     .resizable()
@@ -100,10 +104,13 @@ struct ContentView: View {
                                     .cornerRadius(10)
                                     .accessibilityLabel("Nessuna foto")
                             }
-
                         }
                         .padding(.vertical, 5)
                         .onTapGesture {
+                            selectedMission = mission
+                            showingMissionModal = true
+                        }
+                        .accessibilityAction(named: "Seleziona missione") {
                             selectedMission = mission
                             showingMissionModal = true
                         }
@@ -120,8 +127,11 @@ struct ContentView: View {
                                 showingMissionModal = false
                             }
                         )
+                        .accessibilityElement(children: .contain)
+                        .accessibilityLabel("Dettagli della missione: \(selectedMission?.title ?? "Missione sconosciuta")")
                     } else {
                         Text("Missione non trovata.")
+                            .accessibilityLabel("Missione non trovata")
                     }
                 }
                 
@@ -132,14 +142,14 @@ struct ContentView: View {
                             .scaledToFit()
                             .frame(width: 75, height: 75)
                             .foregroundColor(.yellow)
-                            .accessibilityLabel("Missione completate")
+                            .accessibilityLabel("Tutte le missioni sono completate")
                     } else {
                         Image(systemName: "star")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 75, height: 75)
                             .foregroundColor(.yellow)
-                            .accessibilityLabel("Missione non completate")
+                            .accessibilityLabel("Ci sono missioni incomplete")
                     }
                 }
                 .padding(.bottom, 20)
@@ -154,6 +164,8 @@ struct ContentView: View {
                         Image(systemName: "medal")
                             .font(.system(size: 25))
                             .foregroundColor(.white)
+                            .accessibilityLabel("Premi")
+                            .accessibilityHint("Vai alla sezione premi")
                     }
                 }
             }

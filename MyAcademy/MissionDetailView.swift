@@ -1,5 +1,5 @@
 //
-//  MissioneDetailView.swift
+//  MissionDetailView.swift
 //  MyAcademy
 //
 //  Created by Davide Bellobuono on 11/12/24.
@@ -20,10 +20,12 @@ struct MissionDetailView: View {
             Text(mission.title)
                 .font(.largeTitle)
                 .padding()
+                .accessibilityLabel("Titolo della missione: \(mission.title)")
             
-            Text (mission.description)
+            Text(mission.description)
                 .font(.body)
                 .padding()
+                .accessibilityLabel("Descrizione della missione: \(mission.description)")
             
             // Mostra l'immagine della missione o un'icona di default
             if let photo = selectedImage ?? mission.completedPhoto {
@@ -32,6 +34,7 @@ struct MissionDetailView: View {
                     .scaledToFit()
                     .frame(height: 200)
                     .cornerRadius(10)
+                    .accessibilityLabel("Foto della missione caricata")
             } else {
                 Image(systemName: "photo") // Immagine di default
                     .resizable()
@@ -39,12 +42,15 @@ struct MissionDetailView: View {
                     .frame(height: 200)
                     .foregroundColor(.gray)
                     .cornerRadius(10)
+                    .accessibilityLabel("Nessuna foto caricata")
             }
             
             Button("Carica foto") {
                 showingImagePicker = true
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityLabel("Carica una foto")
+            .accessibilityHint("Tocca per selezionare una foto dalla galleria")
             
             if selectedImage != nil {
                 Button("Completa Missione") {
@@ -54,8 +60,8 @@ struct MissionDetailView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .padding()
-                .accessibilityLabel("Completa missione")
-                .accessibilityHint("Tocca per completare la missione e aggiungere una foto")
+                .accessibilityLabel("Completa la missione")
+                .accessibilityHint("Tocca per completare la missione con la foto caricata")
             }
             
             Spacer()
@@ -63,10 +69,10 @@ struct MissionDetailView: View {
         .padding()
         .sheet(isPresented: $showingImagePicker) {
             ImagePicker(image: $selectedImage)
+                .accessibilityLabel("Seleziona un'immagine dalla galleria")
         }
     }
 }
-
 
 #Preview {
     MissionDetailView(
