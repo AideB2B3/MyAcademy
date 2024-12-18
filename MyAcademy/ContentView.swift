@@ -11,7 +11,6 @@ struct ContentView: View {
     
     @StateObject private var viewModel = MissionViewModel()
     @State private var selectedMission: Mission?
-    @State private var showingMissionModal = false
     
     var body: some View {
         NavigationStack {
@@ -108,31 +107,23 @@ struct ContentView: View {
                         .padding(.vertical, 5)
                         .onTapGesture {
                             selectedMission = mission
-                            showingMissionModal = true
                         }
                         .accessibilityAction(named: "Seleziona missione") {
                             selectedMission = mission
-                            showingMissionModal = true
                         }
                     }
                 }
                 .listStyle(.insetGrouped)
                 .frame(maxHeight: .infinity)
-                .sheet(isPresented: $showingMissionModal) {
-                    if let mission = selectedMission {
-                        MissionDetailView(
-                            mission: mission,
-                            onComplete: { photo in
-                                viewModel.completeMission(id: mission.id, with: photo)
-                                showingMissionModal = false
-                            }
-                        )
-                        .accessibilityElement(children: .contain)
-                        .accessibilityLabel("Dettagli della missione: \(selectedMission?.title ?? "Missione sconosciuta")")
-                    } else {
-                        Text("Missione non trovata.")
-                            .accessibilityLabel("Missione non trovata")
-                    }
+                .sheet(item: $selectedMission) { mission in
+                    MissionDetailView(
+                        mission: mission,
+                        onComplete: { photo in
+                            viewModel.completeMission(id: mission.id, with: photo)
+                        }
+                    )
+                    .accessibilityElement(children: .contain)
+                    .accessibilityLabel("Dettagli della missione: \(mission.title)")
                 }
                 
                 VStack {

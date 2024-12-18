@@ -3,12 +3,6 @@
 //
 // Created by Davide Bellobuono on 17/12/24.
 //
-//
-//  MissionData.swift
-//  MyAcademy
-//
-//  Created by Davide Bellobuono on 17/12/24.
-//
 
 import SwiftUI
 
